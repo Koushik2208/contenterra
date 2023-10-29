@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import Card from './Card';
+import axios from 'axios';
 
 function App() {
+  const [redditData, setRedditData] = useState([])
+  const getData = async () => {
+    try {
+      const response = await axios.get(`https://www.reddit.com/r/reactjs.json`)
+      console.log('Reddit data : ', response.data.data.children)
+      setRedditData(response.data.data.children)
+    } catch (error) {
+      console.log('Error getting reddit data : ', error)
+    }
+  }
+  useEffect(() => {
+    getData();
+  }, [])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {redditData.map((item, index) => {
+        return (
+          <div key={index}>
+            <Card item={item} />
+          </div>
+        )
+      })}
+    </>
   );
 }
 
