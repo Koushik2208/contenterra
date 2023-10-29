@@ -1,7 +1,6 @@
 import './App.css';
 
 const Card = ({ item }) => {
-    console.log(item.data)
     return (
         <div className='card container'>
             <div className='row row-field'>
